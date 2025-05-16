@@ -1,0 +1,116 @@
+# Jeśli chcesz przejść w dół linii, użyj \n. np: tina\nULLASH.
+# Po zmianie, musisz ponownie uruchomić bota, aby z niego korzystać.
+# Umieść znak # na początku każdego zdania, jeśli nie chcesz, aby kod uruchamiał te linie. 
+# Dzięki https://www.facebook.com/duong.than.net za przetłumaczenie na angielski!
+
+# Cyber.js 
+
+Cyber.newVersionDetected=𝐘𝐨𝐮 𝐚𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐯𝐞𝐫𝐬𝐢𝐨𝐧 %1, 𝐭𝐡𝐞 𝐥𝐚𝐭𝐞𝐬𝐭 𝐯𝐞𝐫𝐬𝐢𝐨𝐧 𝐢𝐬 %2. 
+Cyber.errorFormat=Zniekształcony moduł!
+Cyber.nameExist=Nazwa modułu jest podobna do innego modułu!
+Cyber.notFoundLanguage=Moduł %1 nie obsługuje twojego języka
+Cyber.notFoundPackage=Nie można znaleźć obsługi pakietu %1 dla modułu %2, instalowanie...
+Cyber.cantInstallPackage=Nie można zainstalować pakietu %1 dla modułu %2, błąd: %3
+Cyber.loadedPackage=Pomyślnie zainstalowano cały pakiet dla modułu %1
+Cyber.loadedConfig=Pomyślnie zainstalowano konfigurację dla modułu %1
+Cyber.cantLoadConfig=Nie można zainstalować konfiguracji modułu %1, błąd: %2
+Cyber.cantOnload=Nie można uruchomić konfiguracji modułu %1, błąd: %1
+Cyber.successLoadModule=Pomyślnie zainstalowano moduł %1
+Cyber.failLoadModule=Nie można zainstalować modułu %1, błąd: %2
+Cyber.finishLoadModule=Pomyślnie zainstalowano polecenia modułu %1 i zdarzenia modułu %2 
+Cyber.foundPathAppstate=Pomyślnie zainstalowano stan ścieżki
+Cyber.notFoundPathAppstate=Błąd nie można znaleźć pliku appstate, być może plik jest zniekształcony!
+Cyber.checkListGban=Sprawdzanie globalnej listy banów...
+Cyber.banDevice=Twoje urządzenie zostało zbanowane w ULLASH, skontaktuj się z facebook m.me/100086680386976 aby dowiedzieć się więcej lub poprosić o klucz odblokowujący, jeśli masz już klucz odblokowujący, wypełnij go poniżej.
+Cyber.keyNotSameFormat=Nieprawidłowy format, kod musi zawierać 6 cyfr.
+Cyber.codeInputExpired=Twój kod jest nieprawidłowy lub nieaktualny.
+Cyber.unbanDeviceSuccess=Twoje urządzenie zostało odbanowane, uruchom je ponownie.
+Cyber.userBanned=Zostałeś zbanowany na ullash kiedy %1 z powodem: %2. Skontaktuj się z facebook m.me/100086680386976 aby uzyskać więcej informacji!
+Cyber.finishCheckListGban=Sprawdzono globalną listę banów
+Cyber.handleListenError=HandleListene wystąpił nieoczekiwany błąd, błąd: %1
+Cyber.warningSourceCode=WYKRYTO, ŻE STRUKTURA KODU ŹRÓDŁOWEGO ZOSTAŁA ZMIENIONA, ZATRZYMAJ TERAZ!
+Cyber.refreshListen=Odświeżono handleListener...
+Cyber.successConnectDatabase=Połączono z bazą danych pomyślnie!
+Cyber.failConnectDatabase=Nie udało się połączyć z bazą danych, błąd: %1
+
+# includes/listen.js
+
+listen.startLoadEnvironment=Przejdź do ładowania zmiennej środowiskowej ...
+listen.loadedEnvironmentThread=Pomyślnie załadowano zmienną środowiskową wątku 
+listen.loadedEnvironmentUser=Pomyślnie załadowano zmienną środowiska użytkownika 
+listen.successLoadEnvironment=Pomyślnie załadowano zmienną środowiskową 
+listen.failLoadEnvironment=Nie można załadować zmiennej środowiskowej, błąd: %1
+
+# includes/controller/currencies.js
+
+currencies.needObjectOrArray=Musi być tablicą lub obiektem, a może jednym i drugim.
+currencies.needObject=Musi być obiektem
+currencies.needNumber=Musi być liczbą
+
+# includes/controller/threads.js
+
+threads.needObjectOrArray=Musi być tablicą lub obiektem, a może jednym i drugim.
+threads.needObject=Musi być obiektem 
+
+# includes/controller/users.js
+
+users.needObjectOrArray=Musi być tablicą lub obiektem, a może jednym i drugim
+users.needObject=Musi być obiektem
+
+# includes/handle/handleCommand.js
+
+handleCommand.userBanned=zostales zbanowany-!!🚫
+handleCommand.threadBanned=Group Has Been Banned...!⛔️\nPlease Contact Owner For Unban ⚠️
+handleCommand.commandNotExist=Taka komenda nie istnieje
+handleCommand.commandThreadBanned=Twój wątek nie może użyć polecenia "%1"
+handleCommand.commandUserBanned=Nie możesz użyć polecenia "%1".
+handleCommand.threadNotAllowNSFW=Tej komendy może używać tylko Andmi
+handleCommand.cantGetInfoThread=Nie można uzyskać informacji o wątku, błąd: %1
+handleCommand.permssionNotEnough="%1" brak permisji do uzycia komendy
+handleCommand.cantSetMessageReaction=Nieoczekiwany błąd przy setMessageReaction, błąd: %1
+handleCommand.executeCommand=[ %1 ] Użyte polecenie: %2 przez użytkownika: %3 w wątku: %4 | Args included: %5 | Czas przetwarzania: %6ms
+handleCommand.commandError=Nieoczekiwany błąd podczas używania polecenia %1, błąd: %2
+
+# includes/handle/handleCommandEvent.js
+
+handleCommandEvent.moduleError=Nieoczekiwany błąd podczas używania polecenia %1, błąd: %2
+
+# includes/handle/handleCreateDatabase.js
+
+handleCreateDatabase.newThread=nowy wątek: %1
+handleCreateDatabase.newUser=nowy użytkownik %1
+
+# includes/handle/handleEvent.js
+
+handleEvent.executeEvent=[ %1 ] Zdarzenie zostało wykonane: %2 w wątku: %3 | Czas przetwarzania: %4ms
+handleEvent.eventError=Błąd podczas wykonywania zdarzenia %1, błąd: %12
+
+# includes/handle/handleReaction.js
+
+handleReaction.missingValue=Brakująca wartość, aby odpowiedzieć na problem
+handleReaction.executeError=Błąd podczas odpowiadania na problem, błąd: %1
+
+# includes/handle/handleReply.js
+
+handleReply.missingValue=Brakująca wartość, aby odpowiedzieć na problem
+handleReply.executeError=Błąd podczas odpowiadania na problem, błąd: %1
+
+# includes/handle/handleSchedule.js
+
+handleSchedule.exectuteError=Błąd podczas tworzenia harmonogramu w module %1, błąd: %2
+
+# utils/index.js
+
+utils.throwError=Jesli komenda nie dziala sproboj uzyc %1help %2
+# updater.js
+
+updater.latestVersion=Używasz najnowszej wersji
+updater.cantFindVersion=Używasz niezdefiniowanej wersji (%1), sprawdź ponownie plik package.json
+updater.newVersions=Istnieje %1 nowych wersji do zaktualizowania, rozpoczynamy aktualizację...
+updater.updateSuccess=Aktualizacja powiodła się%1
+updater.configChanged=Zmieniono %1, sprawdź ponownie plik config.json
+updater.installingPackages=Instalowanie zależności dla bota...
+updater.installSuccess=Pomyślnie zainstalowano zależności, uruchom ponownie bota, aby użyć nowej wersji.
+updater.backupSuccess=Pomyślnie utworzono kopię zapasową zmienionych plików, zobacz w folderze %1
+updater.restartToApply=Zrestartuj bota, aby zastosować nową wersję
+updater.skipFile=Istnieje nowa wersja pliku %1, ale pominięto ten plik podczas procesu aktualizacji z komentarzem %2 w tym pliku.
