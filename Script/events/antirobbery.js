@@ -1,38 +1,44 @@
 module.exports.config = {
-  name: "guard",
-  eventType: ["log:thread-admins"],
-  version: "1.0.0",
-  credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
-  description: "Prevent admin changes",
+    name: "guard",
+    eventType: ["log:thread-admins"],
+    version: "1.0.0",
+    credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
+    description: "Prevent admin changes",
 };
 
 module.exports.run = async function ({ event, api, Threads, Users }) {
-  const { logMessageType, logMessageData, senderID, threadID, author, messageID } = event;
-
-  let thread = await Threads.getData(threadID);
-  let data = thread?.data || {};
-  if (data.guard !== true) return;
-
-  if (logMessageType !== "log:thread-admins") return;
-
-  const botID = api.getCurrentUserID();
-  const targetID = logMessageData.TARGET_ID;
-  const action = logMessageData.ADMIN_EVENT;
-
-  function editAdminsCallback(err) {
-    if (err) {
-      return api.sendMessage("Wystąpił błąd podczas cofania zmian uprawnień administratora.", threadID, messageID);
+    const { logMessageType, logMessageData, senderID } = event;
+ 	let data = (await Threads.getData(event.threadID)).data
+ 	if (data.guard == false) return;
+    if (data.guard == true ) {
+        switch (logMessageType) {
+          case "log:thread-admins": {
+            if (logMessageData.ADMIN_EVENT == "add_admin") {
+              if(event.author == api.getCurrentUserID()) return
+              if(logMessageData.TARGET_ID == api.getCurrentUserID()) return
+              else {
+                api.changeAdminStatus(event.threadID, event.author, false, editAdminsCallback)
+                api.changeAdminStatus(event.threadID, logMessageData.TARGET_ID, false)
+                function editAdminsCallback(err) {
+                  if (err) return api.sendMessage("Idiota", event.threadID, event.messageID);
+                    return api.sendMessage(`Wlaczono tryb przeciwko kradzieży grupy`, event.threadID, event.messageID);
+                }
+              }
+            }
+            else if (logMessageData.ADMIN_EVENT == "remove_admin") {
+              if(event.author == api.getCurrentUserID()) return
+              if(logMessageData.TARGET_ID == api.getCurrentUserID()) return
+              else {
+                api.changeAdminStatus(event.threadID, event.author, false, editAdminsCallback)
+                api.changeAdminStatus(event.threadID, logMessageData.TARGET_ID, true)
+                function editAdminsCallback(err) {
+                if (err) return api.sendMessage("Idiota", event.threadID, event.messageID);
+                return api.sendMessage(`Wlaczono tryb przeciwko kradziezy grupy`, event.threadID, event.messageID);
+              }
+            }
+          }
+        }
+      }
     }
-    return api.sendMessage("Włączono tryb ochrony przed nieautoryzowaną zmianą administratorów.", threadID, messageID);
-  }
-
-  if (author === botID || targetID === botID) return;
-
-  if (action === "add_admin") {
-    api.changeAdminStatus(threadID, author, false, editAdminsCallback);
-    api.changeAdminStatus(threadID, targetID, false);
-  } else if (action === "remove_admin") {
-    api.changeAdminStatus(threadID, author, false, editAdminsCallback);
-    api.changeAdminStatus(threadID, targetID, true);
-  }
+} }
 };
