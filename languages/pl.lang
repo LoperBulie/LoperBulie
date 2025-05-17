@@ -5,7 +5,7 @@
 
 # Cyber.js 
 
-Cyber.newVersionDetected=𝐘𝐨𝐮 𝐚𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐯𝐞𝐫𝐬𝐢𝐨𝐧 %1, 𝐭𝐡𝐞 𝐥𝐚𝐭𝐞𝐬𝐭 𝐯𝐞𝐫𝐬𝐢𝐨𝐧 𝐢𝐬 %2. 
+Cyber.newVersionDetected=𝐘𝐨𝐮 𝐚𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐯𝐞𝐫𝐬𝐢𝐨𝐧 %1, 𝐭𝐡𝐞 latest 𝐯𝐞𝐫𝐬𝐢𝐨𝐧 𝐢𝐬 %2. 
 Cyber.errorFormat=Zniekształcony moduł!
 Cyber.nameExist=Nazwa modułu jest podobna do innego modułu!
 Cyber.notFoundLanguage=Moduł %1 nie obsługuje twojego języka
