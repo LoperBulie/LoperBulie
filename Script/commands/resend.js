@@ -47,13 +47,13 @@ module.exports.handleEvent = async function({ event: e, api: a, client: t, Users
 
 			// Brak załączników
 			if (!oldMsg.attachment || oldMsg.attachment.length === 0) {
-				return a.sendMessage(`${senderName} usunął wiadomość:\n${oldMsg.msgBody}`, threadID);
+				return a.sendMessage(`⚠️ ${senderName} usunął wiadomość:\n${oldMsg.msgBody}`, threadID);
 			}
 
 			// Z załącznikami
 			let index = 0;
 			const response = {
-				body: `${senderName} usunął ${oldMsg.attachment.length} załącznik(i).` +
+				body: `⚠️ ${senderName} usunął ${oldMsg.attachment.length} załącznik(i).` +
 					(oldMsg.msgBody ? `\n\nZawartość: ${oldMsg.msgBody}` : ""),
 				attachment: [],
 				mentions: [{
