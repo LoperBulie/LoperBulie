@@ -22,9 +22,9 @@ module.exports.run = async ({ event, api, Threads, Users }) => {
     api.addUserToGroup(event.logMessageData.leftParticipantFbId, event.threadID, (error) => {
       if (error) {
         console.error("Błąd przy dodawaniu z powrotem:", error);
-        api.sendMessage(`Niestety nie udało się dodać ${name} z powrotem 😞`, event.threadID);
+        api.sendMessage(`❌ Niestety nie udało się dodać ${name} 😞`, event.threadID);
       } else {
-        api.sendMessage(`Witamy ponownie ${name}, z tej grupy nie uciekniesz 😉`, event.threadID);
+        api.sendMessage(`✅ Witamy ponownie ${name}, z tej grupy nie uciekniesz 😉`, event.threadID);
       }
     });
   }
