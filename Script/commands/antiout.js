@@ -5,7 +5,7 @@ module.exports.config = {
     hasPermssion: 1,
     description: "Turn off antiout",
     usages: "antiout on/off",
-    commandCategory: "system",
+    commandCategory: "systemowe",
     cooldowns: 0
 };
 
