@@ -1,4 +1,4 @@
-const ignoredUsers = ["61575946546909"]; // <-- Tutaj wpisz ID użytkowników do ignorowania
+const ignoredUsers = ["61575094813494"]; // <-- Tutaj wpisz ID użytkowników do ignorowania
 
 module.exports.config = {
 	name: "resend",
