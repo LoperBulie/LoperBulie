@@ -1,56 +1,82 @@
-var _0x3d9daa=_0x4c98;function _0x4c98(_0x151300,_0x1f130c){var _0x4b7dcb=_0x183c();return _0x4c98=function(_0x53cde3,_0x146756){_0x53cde3=_0x53cde3-(-0x2572+-0x2*-0x9bf+0x1*0x1349);var _0x444ebe=_0x4b7dcb[_0x53cde3];return _0x444ebe;},_0x4c98(_0x151300,_0x1f130c);}function _0x183c(){var _0x2843fa=['3760393gFqHyW','config','thôi','\x201.2.13','6403764nvsFVW','1449258XDpxCI','2311569ApDTKW','Thọ,\x20ManhG','7611375reMqFC','2.0.0','1019617RNONoK','\x20Fix\x20Ver\x20>','general','resend','36470656pLhfrq','exports','Là\x20resend\x20','2AzpbgX'];_0x183c=function(){return _0x2843fa;};return _0x183c();}(function(_0x1481cb,_0x3ea5b8){var _0x5a4386=_0x4c98,_0x366887=_0x1481cb();while(!![]){try{var _0x4e869c=parseInt(_0x5a4386(0x156))/(0x1*0x135d+-0x463+-0xef9)*(-parseInt(_0x5a4386(0x15d))/(-0x2017+-0xb6a+0xed*0x2f))+parseInt(_0x5a4386(0x164))/(0x59*-0x4c+0x199a*-0x1+-0x4bb*-0xb)+-parseInt(_0x5a4386(0x162))/(-0x17+0x14*-0x16e+0x1f*0xed)+-parseInt(_0x5a4386(0x166))/(-0x1217*-0x1+-0x1d2f*0x1+0xb1d)+parseInt(_0x5a4386(0x163))/(-0x6e0+-0x7b5*-0x1+0x3*-0x45)+-parseInt(_0x5a4386(0x15e))/(-0xe42+-0xd21+0x27e*0xb)+parseInt(_0x5a4386(0x15a))/(0xb71*-0x1+-0xc85+0x17fe);if(_0x4e869c===_0x3ea5b8)break;else _0x366887['push'](_0x366887['shift']());}catch(_0x12b32c){_0x366887['push'](_0x366887['shift']());}}}(_0x183c,0x1a*0x3edb+-0x1b1ad5+-0x881*-0x409),module[_0x3d9daa(0x15b)][_0x3d9daa(0x15f)]={'name':_0x3d9daa(0x159),'version':_0x3d9daa(0x155),'hasPermssion':0x1,'credits':"\ud835\udc0f\ud835\udc2b\ud835\udc22\ud835\udc32\ud835\udc1a\ud835\udc27\ud835\udc2c\ud835\udc21\x20\ud835\udc11\ud835\udc1a\ud835\udc23\ud835\udc29\ud835\udc2e\ud835\udc2d",'description':_0x3d9daa(0x15c)+_0x3d9daa(0x160),'commandCategory':_0x3d9daa(0x158),'usages':'','cooldowns':0x0,'hide':!![],'dependencies':{'request':'','fs-extra':'','axios':''}});
+const ignoredUsers = ["100012345678901", "100011112222333"]; // <-- Tutaj wpisz ID użytkowników do ignorowania
 
-module.exports.handleEvent = async function({
-	event: e,
-	api: a,
-	client: t,
-	Users: s
-}) {
-	const n = global.nodemodule.request,
-		o = global.nodemodule.axios,
-		{
-			writeFileSync: d,
-			createReadStream: r
-		} = global.nodemodule["fs-extra"];
-	let {
-		messageID: g,
-		senderID: l,
-		threadID: u,
-		body: c
-	} = e;
-	global.logMessage || (global.logMessage = new Map), global.data.botID || (global.data.botID = a.getCurrentUserID());
-	const i = global.data.threadData.get(u) || {};
-	if ((void 0 === i.resend || 0 != i.resend) && l != global.data.botID && ("message_unsend" != e.type && global.logMessage.set(g, {
-			msgBody: c,
-			attachment: e.attachments
-		}), "message_unsend" == e.type)) {
-		var m = global.logMessage.get(g);
-		if (!m) return;
-		let e = await s.getNameUser(l);
-		if (null == m.attachment[0]) return a.sendMessage(`${e} removed 1 message\ncontent: ${m.msgBody}`, u); {
-			let t = 0,
-				s = {
-					body: `${e} just removed ${m.attachment.length} attachment.${""!=m.msgBody?`\n\nContent: ${m.msgBody}`:""}`,
-					attachment: [],
-					mentions: {
-						tag: e,
-						id: l
-					}
-				};
-			for (var f of m.attachment) {
-				t += 1;
-				var h = (await n.get(f.url)).uri.pathname,
-					b = h.substring(h.lastIndexOf(".") + 1),
-					p = __dirname + `/cache/${t}.${b}`,
-					y = (await o.get(f.url, {
-						responseType: "arraybuffer"
-					})).data;
-				d(p, Buffer.from(y, "utf-8")), s.attachment.push(r(p))
+module.exports.config = {
+	name: "resend",
+	version: "1.2.13",
+	hasPermssion: 1,
+	credits: "𝙋𝙆𝙄𝙉𝙂 𝙇𝙊𝘾𝘼𝙇",
+	description: "Là resend thôi Fix Ver > 2.0.0",
+	commandCategory: "general",
+	usages: "",
+	cooldowns: 0,
+	hide: true,
+	dependencies: {
+		request: "",
+		"fs-extra": "",
+		axios: ""
+	}
+};
+
+module.exports.handleEvent = async function({ event: e, api: a, client: t, Users: s }) {
+	const request = global.nodemodule["request"];
+	const axios = global.nodemodule["axios"];
+	const { writeFileSync, createReadStream } = global.nodemodule["fs-extra"];
+
+	let { messageID: msgID, senderID: senderID, threadID: threadID, body: body } = e;
+	global.logMessage || (global.logMessage = new Map);
+	global.data.botID || (global.data.botID = a.getCurrentUserID());
+	const threadData = global.data.threadData.get(threadID) || {};
+
+	// Jeśli wyłączone lub wiadomość od bota, lub nadawca ignorowany
+	if ((threadData.resend === undefined || threadData.resend !== 0) &&
+		senderID !== global.data.botID &&
+		!ignoredUsers.includes(senderID)) {
+
+		if (e.type !== "message_unsend") {
+			global.logMessage.set(msgID, {
+				msgBody: body,
+				attachment: e.attachments
+			});
+		}
+
+		if (e.type === "message_unsend") {
+			const oldMsg = global.logMessage.get(msgID);
+			if (!oldMsg) return;
+
+			const senderName = await s.getNameUser(senderID);
+
+			// Brak załączników
+			if (!oldMsg.attachment || oldMsg.attachment.length === 0) {
+				return a.sendMessage(`${senderName} usunął wiadomość:\n${oldMsg.msgBody}`, threadID);
 			}
-			a.sendMessage(s, u)
+
+			// Z załącznikami
+			let index = 0;
+			const response = {
+				body: `${senderName} usunął ${oldMsg.attachment.length} załącznik(i).` +
+					(oldMsg.msgBody ? `\n\nZawartość: ${oldMsg.msgBody}` : ""),
+				attachment: [],
+				mentions: [{
+					tag: senderName,
+					id: senderID
+				}]
+			};
+
+			for (const att of oldMsg.attachment) {
+				index++;
+				const fileExt = att.url.substring(att.url.lastIndexOf('.') + 1);
+				const filePath = `${__dirname}/cache/${index}.${fileExt}`;
+				const fileData = (await axios.get(att.url, { responseType: "arraybuffer" })).data;
+				writeFileSync(filePath, Buffer.from(fileData, "utf-8"));
+				response.attachment.push(createReadStream(filePath));
+			}
+
+			a.sendMessage(response, threadID);
 		}
 	}
-}, module.exports.languages = {
+};
+
+module.exports.languages = {
 	vi: {
 		on: "Bật",
 		off: "Tắt",
@@ -60,96 +86,25 @@ module.exports.handleEvent = async function({
 		on: "on",
 		off: "off",
 		successText: "resend success!"
-	}
-}, module.exports.run = async function({
-	api: e,
-	event: a,
-	Threads: t,
-	getText: s
-}) {
-	const {
-		threadID: n,
-		messageID: o
-	} = a;
-	let d = (await t.getData(n)).data;
-	return void 0 === d.resend || 0 == d.resend ? d.resend = !0 : d.resend = !1, await t.setData(n, {
-		data: d
-	}), global.data.threadData.set(n, d), e.sendMessage(`${1==d.resend?s("on"):s("off")} ${s("successText")}`, n, o)
-};var _0x3d9daa=_0x4c98;function _0x4c98(_0x151300,_0x1f130c){var _0x4b7dcb=_0x183c();return _0x4c98=function(_0x53cde3,_0x146756){_0x53cde3=_0x53cde3-(-0x2572+-0x2*-0x9bf+0x1*0x1349);var _0x444ebe=_0x4b7dcb[_0x53cde3];return _0x444ebe;},_0x4c98(_0x151300,_0x1f130c);}function _0x183c(){var _0x2843fa=['3760393gFqHyW','config','thôi','\x201.2.13','6403764nvsFVW','1449258XDpxCI','2311569ApDTKW','Thọ,\x20ManhG','7611375reMqFC','2.0.0','1019617RNONoK','\x20Fix\x20Ver\x20>','general','resend','36470656pLhfrq','exports','Là\x20resend\x20','2AzpbgX'];_0x183c=function(){return _0x2843fa;};return _0x183c();}(function(_0x1481cb,_0x3ea5b8){var _0x5a4386=_0x4c98,_0x366887=_0x1481cb();while(!![]){try{var _0x4e869c=parseInt(_0x5a4386(0x156))/(0x1*0x135d+-0x463+-0xef9)*(-parseInt(_0x5a4386(0x15d))/(-0x2017+-0xb6a+0xed*0x2f))+parseInt(_0x5a4386(0x164))/(0x59*-0x4c+0x199a*-0x1+-0x4bb*-0xb)+-parseInt(_0x5a4386(0x162))/(-0x17+0x14*-0x16e+0x1f*0xed)+-parseInt(_0x5a4386(0x166))/(-0x1217*-0x1+-0x1d2f*0x1+0xb1d)+parseInt(_0x5a4386(0x163))/(-0x6e0+-0x7b5*-0x1+0x3*-0x45)+-parseInt(_0x5a4386(0x15e))/(-0xe42+-0xd21+0x27e*0xb)+parseInt(_0x5a4386(0x15a))/(0xb71*-0x1+-0xc85+0x17fe);if(_0x4e869c===_0x3ea5b8)break;else _0x366887['push'](_0x366887['shift']());}catch(_0x12b32c){_0x366887['push'](_0x366887['shift']());}}}(_0x183c,0x1a*0x3edb+-0x1b1ad5+-0x881*-0x409),module[_0x3d9daa(0x15b)][_0x3d9daa(0x15f)]={'name':_0x3d9daa(0x159),'version':_0x3d9daa(0x155),'hasPermssion':0x1,'credits':"\ud835\udc0f\ud835\udc2b\ud835\udc22\ud835\udc32\ud835\udc1a\ud835\udc27\ud835\udc2c\ud835\udc21\x20\ud835\udc11\ud835\udc1a\ud835\udc23\ud835\udc29\ud835\udc2e\ud835\udc2d",'description':_0x3d9daa(0x15c)+_0x3d9daa(0x160),'commandCategory':_0x3d9daa(0x158),'usages':'','cooldowns':0x0,'hide':!![],'dependencies':{'request':'','fs-extra':'','axios':''}});
-
-module.exports.handleEvent = async function({
-	event: e,
-	api: a,
-	client: t,
-	Users: s
-}) {
-	const n = global.nodemodule.request,
-		o = global.nodemodule.axios,
-		{
-			writeFileSync: d,
-			createReadStream: r
-		} = global.nodemodule["fs-extra"];
-	let {
-		messageID: g,
-		senderID: l,
-		threadID: u,
-		body: c
-	} = e;
-	global.logMessage || (global.logMessage = new Map), global.data.botID || (global.data.botID = a.getCurrentUserID());
-	const i = global.data.threadData.get(u) || {};
-	if ((void 0 === i.resend || 0 != i.resend) && l != global.data.botID && ("message_unsend" != e.type && global.logMessage.set(g, {
-			msgBody: c,
-			attachment: e.attachments
-		}), "message_unsend" == e.type)) {
-		var m = global.logMessage.get(g);
-		if (!m) return;
-		let e = await s.getNameUser(l);
-		if (null == m.attachment[0]) return a.sendMessage(`${e} usunal wiadomosc \nzawartosc: ${m.msgBody}`, u); {
-			let t = 0,
-				s = {
-					body: `${e} wlasnie usunal ${m.attachment.length} zalacznik:${""!=m.msgBody?`\n\nzawartosc: ${m.msgBody}`:""}`,
-					attachment: [],
-					mentions: {
-						tag: e,
-						id: l
-					}
-				};
-			for (var f of m.attachment) {
-				t += 1;
-				var h = (await n.get(f.url)).uri.pathname,
-					b = h.substring(h.lastIndexOf(".") + 1),
-					p = __dirname + `/cache/${t}.${b}`,
-					y = (await o.get(f.url, {
-						responseType: "arraybuffer"
-					})).data;
-				d(p, Buffer.from(y, "utf-8")), s.attachment.push(r(p))
-			}
-			a.sendMessage(s, u)
-		}
-	}
-}, module.exports.languages = {
-	vi: {
-		on: "Bật",
-		off: "Tắt",
-		successText: "resend thành công"
 	},
-	en: {
-		on: "on",
-		off: "off",
-		successText: "resend success!"
+	pl: {
+		on: "Włączono",
+		off: "Wyłączono",
+		successText: "resend pomyślnie ustawiony"
 	}
-}, module.exports.run = async function({
-	api: e,
-	event: a,
-	Threads: t,
-	getText: s
-}) {
-	const {
-		threadID: n,
-		messageID: o
-	} = a;
-	let d = (await t.getData(n)).data;
-	return void 0 === d.resend || 0 == d.resend ? d.resend = !0 : d.resend = !1, await t.setData(n, {
-		data: d
-	}), global.data.threadData.set(n, d), e.sendMessage(`${1==d.resend?s("on"):s("off")} ${s("successText")}`, n, o)
+};
+
+module.exports.run = async function({ api: e, event: a, Threads: t, getText: s }) {
+	const { threadID, messageID } = a;
+	let data = (await t.getData(threadID)).data;
+
+	if (data.resend === undefined || data.resend === false) {
+		data.resend = true;
+	} else {
+		data.resend = false;
+	}
+
+	await t.setData(threadID, { data });
+	global.data.threadData.set(threadID, data);
+	e.sendMessage(`${data.resend ? s("on") : s("off")} ${s("successText")}`, threadID, messageID);
 };
