@@ -6,33 +6,32 @@ module.exports.config = {
 	version: "1.0.3",
 	hasPermssion: 0,
 	credits: "CYBER BOT TEAM (mod by January)",
-	description: "Wysyła losowe zdjęcie psa z folderu images",
+	description: "Wysyła losowe zdjęcie z folderu images",
 	commandCategory: "Picture",
-	usages: "dog",
+	usages: "lista",
 	cooldowns: 1,
 };
 
-module.exports.run = async ({ api, event }) => {
-	const folderPath = path.join(__dirname, "images");
+module.exports.run = async function({ api, event }) {
+	const folderPath = __dirname + "/images";
 
-	let files;
-	try {
-		files = fs.readdirSync(folderPath).filter(file =>
-			/\.(jpg|jpeg|png|gif)$/i.test(file)
-		);
-	} catch (err) {
-		return api.sendMessage("Błąd: Nie można odczytać folderu 'images'.", event.threadID, event.messageID);
+	if (!fs.existsSync(folderPath)) {
+		return api.sendMessage("Folder 'images' nie istnieje!", event.threadID, event.messageID);
 	}
 
-	if (!files.length) {
-		return api.sendMessage("Brak plików graficznych w folderze 'images'.", event.threadID, event.messageID);
+	const files = fs.readdirSync(folderPath).filter(file =>
+		/\.(jpg|jpeg|png|gif)$/i.test(file)
+	);
+
+	if (files.length === 0) {
+		return api.sendMessage("Brak zdjęć w folderze!", event.threadID, event.messageID);
 	}
 
 	const randomImage = files[Math.floor(Math.random() * files.length)];
-	const imagePath = path.join(folderPath, randomImage);
+	const imagePath = folderPath + "/" + randomImage;
 
 	return api.sendMessage({
-		body: "Oto losowy piesek!",
+		body: "Oto losowy obrazek:",
 		attachment: fs.createReadStream(imagePath)
 	}, event.threadID, event.messageID);
 };
