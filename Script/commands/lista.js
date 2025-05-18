@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports.config = {
-	name: "dog",
+	name: "lista",
 	version: "1.0.3",
 	hasPermssion: 0,
 	credits: "CYBER BOT TEAM (mod by January)",
