@@ -1,40 +1,43 @@
 const userActivity = {};
 const maxMessages = 7;
-const timeWindow = 7 * 1000;
+const timeWindow = 7 * 1000; // 15 sekund
 
 module.exports.config = {
   name: "antispam",
-  eventType: ["message"],
-  version: "1.0.0",
+  eventType: ["message", "message_reply"],
+  version: "1.0.1",
   credits: "ChatGPT",
-  description: "Wyrzuca użytkownika za spam"
+  description: "Wyrzuca spamujących użytkowników"
 };
 
-module.exports.run = () => {}; // wymagane przez silnik
+module.exports.run = () => {}; // wymagane
 
 module.exports.handleEvent = async function({ api, event }) {
-  const { senderID, threadID, isGroup } = event;
-  if (!isGroup || senderID == api.getCurrentUserID()) return;
+  const { threadID, senderID } = event;
+
+  // Pomijaj bota
+  if (senderID == api.getCurrentUserID()) return;
 
   const now = Date.now();
 
-  if (!userActivity[senderID]) {
-    userActivity[senderID] = { count: 1, startTime: now };
+  if (!userActivity[threadID]) userActivity[threadID] = {};
+  if (!userActivity[threadID][senderID]) {
+    userActivity[threadID][senderID] = { count: 1, start: now };
   } else {
-    if (now - userActivity[senderID].startTime < timeWindow) {
-      userActivity[senderID].count++;
-
-      if (userActivity[senderID].count >= maxMessages) {
+    let activity = userActivity[threadID][senderID];
+    if (now - activity.start < timeWindow) {
+      activity.count++;
+      if (activity.count >= maxMessages) {
         try {
           await api.removeUserFromGroup(senderID, threadID);
           api.sendMessage(`⚠️ Użytkownik ${senderID} został wyrzucony za spam (${maxMessages} wiadomości w ${timeWindow / 1000}s).`, threadID);
         } catch (err) {
-          api.sendMessage(`❌ Nie mogę wyrzucić użytkownika ${senderID}. Brak uprawnień admina.`, threadID);
+          api.sendMessage(`❌ Nie mogę wyrzucić ${senderID}. Czy bot jest adminem?`, threadID);
         }
-        delete userActivity[senderID];
+        delete userActivity[threadID][senderID];
       }
     } else {
-      userActivity[senderID] = { count: 1, startTime: now };
+      userActivity[threadID][senderID] = { count: 1, start: now };
     }
   }
 };
