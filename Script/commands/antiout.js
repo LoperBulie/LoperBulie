@@ -4,7 +4,7 @@ module.exports.config = {
     credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
     hasPermssion: 1,
     description: "Turn off antiout",
-    usages: "antiout on/off",
+    usages: "antiout on off",
     commandCategory: "systemowe",
     cooldowns: 0
 };
